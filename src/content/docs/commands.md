@@ -16,12 +16,12 @@ All commands can be used with these aliases:
 
 | Command | Permission |
 |---------|-------------|
-| `/ss reload` | `smartspawner.reload` |
 | `/ss give spawner <player> <type> [amount]` | `smartspawner.give` |
 | `/ss give vanilla_spawner <player> <type> [amount]` | `smartspawner.give` |
-| `/ss list` | `smartspawner.list` |
 | `/ss hologram` | `smartspawner.hologram` |
+| `/ss list` | `smartspawner.list` |
 | `/ss prices` | `smartspawner.prices` |
+| `/ss reload` | `smartspawner.reload` |
 
 ## Command Details
 
@@ -34,8 +34,8 @@ All commands can be used with these aliases:
 Give smart spawners to a player.
 
 **About SmartSpawners:**
-- **GUI Interface**: Right-click to open an intuitive graphical interface
-- **No Mob Spawning**: Generates drops and experience without spawning actual entities
+- **GUI Interface**: Right-click to access spawner GUI
+- **No Mob Spawning**: Generates drops and experience without spawning actual mobs
 - **Stackable**: Multiple spawners can be stacked in a single block for increased efficiency
 - **Performance Optimized**: Reduces server lag by eliminating entity spawning
 
@@ -43,13 +43,6 @@ Give smart spawners to a player.
 - `<player>` - Target player (supports player selectors like `@p`, `@a`, etc.)
 - `<type>` - Entity type (zombie, skeleton, blaze, etc.)
 - `[amount]` - Optional quantity (1-6400, defaults to 1 if not specified)
-
-**Examples:**
-```bash
-/ss give spawner Steve zombie 5
-/ss give spawner @p blaze
-/ss give spawner PlayerName skeleton 10
-```
 
 ### `/ss give vanilla_spawner`
 
@@ -70,36 +63,12 @@ Give vanilla spawners to a player.
 - `<type>` - Entity type (zombie, skeleton, blaze, etc.)
 - `[amount]` - Optional quantity (1-6400, defaults to 1 if not specified)
 
-**Examples:**
-```bash
-/ss give vanilla_spawner Steve zombie 5
-/ss give vanilla_spawner @p blaze
-/ss give vanilla_spawner PlayerName skeleton 10
-```
-
 **Supported Entity Types:**
 All vanilla Minecraft entities are supported. The command provides auto-completion suggestions as you type.
 
-### `/ss prices`
+### `/ss hologram`
 
-```bash
-/ss prices
-```
-
-Opens a GUI displaying sell prices for all spawner-generated items.
-
-**Features:**
-- **Interactive GUI**: Browse through paginated price listings
-- **Real-time Prices**: Shows current shop prices for all items
-- **Integration Required**: Only available when sell integration is active
-
-**Requirements:**
-- Must be executed by a player (not console)
-- Sell integration must be enabled and configured
-- Player must have `smartspawner.prices` permission
-
-**Usage:**
-Simply run the command to open the prices interface. If sell integration is not available, you'll receive a notification message.
+Toggle the spawner hologram display for all spawners.
 
 ### `/ss list`
 
@@ -110,6 +79,15 @@ Administrative interface for spawner management.
 - Teleport to locations
 - Filter by world/status
 - Real-time statistics
+
+### `/ss prices`
+
+Opens a GUI displaying sell prices for all spawner-generated items.
+
+**Features:**
+- **Interactive GUI**: Browse through paginated price listings
+- **Real-time Prices**: Shows current shop/custom prices for all items
+- **Integration Required**: Only available when sell integration is active
 
 ### `/ss reload`
 
@@ -124,4 +102,4 @@ Reload all configuration files without server restart.
 
 ---
 
-*Last update: September 15, 2025 16:32:43*
+*Last update: September 15, 2025 23:26:58*

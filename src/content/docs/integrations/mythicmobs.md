@@ -56,4 +56,4 @@ This configuration creates a custom boss that has a 50% chance to drop 1-2 blaze
 
 ---
 
-*Last update: September 15, 2025 16:19:54*
+*Last update: September 15, 2025 16:32:48*

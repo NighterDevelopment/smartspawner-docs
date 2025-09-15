@@ -148,4 +148,4 @@ SmartSpawner includes comprehensive defaults based on Minecraft Wiki data.
 
 ---
 
-*Last update: September 15, 2025 16:20:29*
+*Last update: September 15, 2025 16:32:48*

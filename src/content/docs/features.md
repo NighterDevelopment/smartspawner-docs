@@ -163,4 +163,4 @@ Fully compatible and integrated with **popular economy/shop plugins**, allowing 
 
 ---
 
-*Last update: September 15, 2025 16:20:18*
+*Last update: September 15, 2025 16:32:48*

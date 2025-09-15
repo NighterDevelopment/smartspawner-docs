@@ -60,4 +60,4 @@ SmartSpawner also maintains compatibility with numerous other plugins through it
 
 ---
 
-*Last update: September 15, 2025 16:20:49*
+*Last update: September 15, 2025 16:32:48*
