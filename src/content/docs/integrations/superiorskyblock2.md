@@ -143,3 +143,7 @@ island-roles:
 3. **Role Assignment**: Assign permissions to specific roles or individual players through the SuperiorSkyblock2 GUI
 
 4. **Permission Verification**: Players will see visual and audio feedback when attempting to use spawner features
+
+---
+
+*Last update: September 15, 2025 16:20:53*

@@ -30,3 +30,7 @@ Understanding the **Default** column in the permissions table:
 | `smartspawner.break`             | Allows breaking spawners                              | `true`      |
 | `smartspawner.sellall`           | Allows selling items in the spawner storage GUI      | `true`      |
 | `smartspawner.limits.bypass`     | Bypass spawner limits per chunk                      | `false`     |
+
+---
+
+*Last update: September 15, 2025 16:20:38*

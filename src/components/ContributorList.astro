@@ -34,7 +34,7 @@ interface Props {
 }
 
 const { 
-  repository = 'ptthanh02/SmartSpawner', 
+  repository = 'NighterDevelopment/smartspawner', 
   limit = 50,
   excludeUsernames = ['dependabot', 'Copilot'],
   cacheTime = 120, // Cache for 2 hour by default
@@ -48,14 +48,20 @@ const CACHE_FILE = path.join(CACHE_DIR, `contributors-${repository.replace('/', 
 
 // Static fallback contributors
 const STATIC_FALLBACK: Contributor[] = fallbackData.length > 0 ? fallbackData : [
-  // static contributors here as fallback
-  // {
-  //   login: 'ptthanh02',
-  //   avatar_url: 'https://github.com/ptthanh02.png',
-  //   html_url: 'https://github.com/ptthanh02',
-  //   contributions: 100,
-  //   type: 'User'
-  // }
+  {
+    login: 'ptthanh02',
+    avatar_url: 'https://github.com/ptthanh02.png',
+    html_url: 'https://github.com/ptthanh02',
+    contributions: 150,
+    type: 'User'
+  },
+  {
+    login: 'NighterDevelopment',
+    avatar_url: 'https://github.com/NighterDevelopment.png',
+    html_url: 'https://github.com/NighterDevelopment',
+    contributions: 75,
+    type: 'User'
+  }
 ];
 
 // Ensure cache directory exists

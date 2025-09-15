@@ -18,13 +18,13 @@ export default defineConfig({
 			customCss: [
 				'./src/styles/custom.css',
 			],
-			description: 'Professional spawner management plugin for Minecraft servers',
-			favicon: '/favicon.svg',
+			description: 'A customizable spawner GUI plugin that generates mob drops and experience directly, without spawning mobs',
+			favicon: './src/assets/Spawner.png',
 			// logo: {
 			// 		src: './src/assets/logo.png',
 			// },
 			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/ptthanh02/SmartSpawner' },
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/NighterDevelopment/smartspawner' },
 				{ icon: 'discord', label: 'Discord', href: 'https://discord.gg/zrnyG4CuuT' },
 			],
 			components: {
@@ -56,7 +56,6 @@ export default defineConfig({
 							items: [
 								{ label: 'MythicMobs', slug: 'integrations/mythicmobs' },
 								{ label: 'SuperiorSkyblock2', slug: 'integrations/superiorskyblock2' },
-								{ label: 'BentoBox', slug: 'integrations/bentobox' },
 							],
 						},
 					],

@@ -44,7 +44,6 @@ Multi-world compatibility ensures spawners work across different worlds:
 Specialized support for skyblock environments with enhanced features:
 
 - **[SuperiorSkyblock2](https://www.spigotmc.org/resources/%E2%9A%A1%EF%B8%8F-superiorskyblock2-%E2%9A%A1%EF%B8%8F-the-best-core-on-market-%E2%9A%A1%EF%B8%8F-1-21-3-support.87411/)** -> **[📖 Setup Guide](/SmartSpawner-Docs/integrations/superiorskyblock2)**
-- **[BentoBox](https://www.spigotmc.org/resources/bentobox-bskyblock-acidisland-skygrid-caveblock-aoneblock-boxed.73261/)** -> **[📖 Setup Guide](/SmartSpawner-Docs/integrations/bentobox)**
 - **[IridiumSkyblock](https://www.spigotmc.org/resources/iridium-skyblock-1-13-1-21-5.62480/)**
 
 ## RPG & Skills Systems
@@ -58,3 +57,7 @@ Specialized support for skyblock environments with enhanced features:
 ## Additional Compatibility
 
 SmartSpawner also maintains compatibility with numerous other plugins through its flexible API system, ensuring broad ecosystem support even for unlisted plugins that follow standard Paper/Folia conventions.
+
+---
+
+*Last update: September 15, 2025 16:20:49*

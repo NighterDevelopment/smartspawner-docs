@@ -53,3 +53,7 @@ CustomBoss:
 ```
 
 This configuration creates a custom boss that has a 50% chance to drop 1-2 blaze spawners and a 25% chance to drop 1 wither skeleton spawner.
+
+---
+
+*Last update: September 15, 2025 16:19:54*

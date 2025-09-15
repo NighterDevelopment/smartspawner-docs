@@ -145,3 +145,7 @@ SmartSpawner includes comprehensive defaults based on Minecraft Wiki data.
 
 - **View Online:** [GitHub Repository](https://github.com/ptthanh02/SmartSpawner/blob/main/core/src/main/resources/mob_drops.yml)
 - **Auto-Regenerate:** Delete `mob_drops.yml` and restart server
+
+---
+
+*Last update: September 15, 2025 16:20:29*

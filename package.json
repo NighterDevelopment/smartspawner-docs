@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist",
+    "add-timestamps": "node scripts/add-timestamps.js"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.35.2",

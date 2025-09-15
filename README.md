@@ -91,11 +91,17 @@ We appreciate contributions from the community! Whether you're fixing a typo, ad
    - Component changes in `src/components/`
    - Style modifications in `src/styles/`
 4. **Test your changes** locally using `npm run dev`.
-5. **Commit your changes** with descriptive messages:
+5. **Update timestamps for documentation files** (if you modified any `.md` files in `src/content/docs/`):
+
+   ```bash
+   npm run add-timestamps
+   ```
+   This command automatically updates the "Last update" timestamp at the end of each modified documentation file based on its last modification time. This ensures accurate update information for readers
+6. **Commit your changes** with descriptive messages:
    ```bash
    git commit -m "Add comprehensive guide for plugin integrations"
    ```
-6. **Push to your fork** and **create a pull request**.
+7. **Push to your fork** and **create a pull request**.
 
 ### Code Style
 - Follow existing Markdown formatting and structure.
