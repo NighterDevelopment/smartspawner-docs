@@ -6,9 +6,9 @@ description: Professional API for integrating SmartSpawner with your plugins.
 
 ### Installation
 
-Add SmartSpawner API via [JitPack](https://jitpack.io/#ptthanh02/SmartSpawner)
+Add SmartSpawner API via [JitPack](https://jitpack.io/#NighterDevelopment/SmartSpawner/)
 
-> **Latest Version:** [![Latest Release](https://img.shields.io/github/v/release/ptthanh02/SmartSpawner?label=version)](https://github.com/ptthanh02/SmartSpawner/releases/latest)
+> **Latest Version:** [![Latest Release](https://img.shields.io/github/v/release/NighterDevelopment/SmartSpawner?label=version)](https://github.com/NighterDevelopment/SmartSpawner/releases/latest)
 
 **Maven:**
 ```xml
@@ -18,7 +18,7 @@ Add SmartSpawner API via [JitPack](https://jitpack.io/#ptthanh02/SmartSpawner)
 </repository>
 
 <dependency>
-    <groupId>com.github.ptthanh02</groupId>
+    <groupId>com.github.NighterDevelopment</groupId>
     <artifactId>SmartSpawner</artifactId>
     <version>LATEST</version>
     <scope>provided</scope>
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'com.github.ptthanh02:SmartSpawner:LATEST'
+    compileOnly 'com.github.NighterDevelopment:SmartSpawner:LATEST'
 }
 ```
 
