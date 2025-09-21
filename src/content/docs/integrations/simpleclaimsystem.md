@@ -1,6 +1,6 @@
 ---
-title: Simple Claim System Integration
-description: Comprehensive guide for integrating SmartSpawner with Simple Claim System for enhanced spawner protection and management.
+title: SimpleClaimSystem Integration
+description: Comprehensive guide for integrating SmartSpawner with SimpleClaimSystem for enhanced spawner protection and management.
 ---
 
 ## Overview
@@ -59,3 +59,10 @@ default-values-settings:
 ```
 
 **Full Configuration:** [SimpleClaimSystem config.yml](https://github.com/Xyness/SimpleClaimSystem/blob/main/src/main/resources/config.yml#L284)
+
+<br>
+<br>
+
+---
+
+*Last update: September 21, 2025 13:38:49*
