@@ -81,290 +81,232 @@ public class YourPlugin extends JavaPlugin {
 }
 ```
 
-### Core Methods
+## API Methods
 
-| Method | Description | Return |
-|--------|-------------|--------|
-| `createSpawnerItem(EntityType type)` | Create spawner item | `ItemStack` |
-| `createSpawnerItem(EntityType type, int amount)` | Create multiple spawners | `ItemStack` |
-| `getSpawnerEntityType(ItemStack item)` | Get spawner entity type | `EntityType` |
-| `isValidSpawner(ItemStack item)` | Check if item is valid spawner | `boolean` |
+| Method | Description | Return Type |
+|--------|-------------|-------------|
+| `createSpawnerItem(EntityType)` | Creates a SmartSpawner item | `ItemStack` |
+| `createSpawnerItem(EntityType, int)` | Creates many SmartSpawner items | `ItemStack` |
+| `isValidSpawner(ItemStack)` | Checks if item is valid SmartSpawner | `boolean` |
+| `getSpawnerEntityType(ItemStack)` | Gets entity type from SmartSpawner | `EntityType` |
 
-### Practical Examples
+### `createSpawnerItem()`
+Creates a SmartSpawner item with the specified entity type.
 
-#### Spawner Management
 ```java
-public class SpawnerManager {
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+
+// Create a zombie spawner
+ItemStack zombieSpawner = api.createSpawnerItem(EntityType.ZOMBIE);
+
+// Give to player
+player.getInventory().addItem(zombieSpawner);
+```
+
+### `createSpawnerItem()`
+Creates a SmartSpawner item with custom amount.
+
+```java
+// Create 5 skeleton spawners
+ItemStack skeletonSpawners = api.createSpawnerItem(EntityType.SKELETON, 5);
+```
+
+### `isValidSpawner()`
+Checks if an item is a valid SmartSpawner item.
+
+```java
+@EventHandler
+public void onPlayerInteract(PlayerInteractEvent event) {
+    ItemStack item = event.getItem();
     
-    private final SmartSpawnerAPI api;
-    
-    public SpawnerManager(SmartSpawnerAPI api) {
-        this.api = api;
-    }
-    
-    public void giveSpawner(Player player, EntityType type, int amount) {
-        ItemStack spawner = api.createSpawnerItem(type, amount);
-        player.getInventory().addItem(spawner);
-        player.sendMessage("Received " + amount + " " + type + " spawner(s)!");
-    }
-    
-    public boolean isSpawnerInHand(Player player) {
-        ItemStack item = player.getInventory().getItemInMainHand();
-        return api.isValidSpawner(item);
-    }
-    
-    public void identifySpawner(Player player) {
-        ItemStack item = player.getInventory().getItemInMainHand();
-        if (api.isValidSpawner(item)) {
-            EntityType type = api.getSpawnerEntityType(item);
-            player.sendMessage("Holding: " + type + " spawner");
-        } else {
-            player.sendMessage("Not holding a spawner");
-        }
+    if (api.isValidSpawner(item)) {
+        event.getPlayer().sendMessage("You're holding a spawner!");
     }
 }
 ```
 
-#### Economy Integration
+### `getSpawnerEntityType()`
+Gets the entity type from a SmartSpawner item.
+
 ```java
-public class SpawnerShop {
-    
-    private final SmartSpawnerAPI api;
-    private final Map<EntityType, Double> prices;
-    
-    public SpawnerShop(SmartSpawnerAPI api) {
-        this.api = api;
-        this.prices = new HashMap<>();
-        loadPrices();
-    }
-    
-    public boolean buySpawner(Player player, EntityType type) {
-        double price = prices.getOrDefault(type, 100.0);
-        
-        if (hasEnoughMoney(player, price)) {
-            takeMoney(player, price);
-            ItemStack spawner = api.createSpawnerItem(type, 1);
-            player.getInventory().addItem(spawner);
-            player.sendMessage("Purchased " + type + " spawner for $" + price);
-            return true;
-        }
-        
-        player.sendMessage("Insufficient funds! Need $" + price);
-        return false;
-    }
-    
-    private void loadPrices() {
-        prices.put(EntityType.ZOMBIE, 50.0);
-        prices.put(EntityType.SKELETON, 75.0);
-        prices.put(EntityType.BLAZE, 200.0);
-        prices.put(EntityType.ENDERMAN, 300.0);
-    }
+ItemStack item = player.getItemInHand();
+EntityType entityType = api.getSpawnerEntityType(item);
+
+if (entityType != null) {
+    player.sendMessage("This spawner spawns: " + entityType.name());
 }
 ```
 
-## Event System
+## API Events
 
-### Available Events
+SmartSpawner provides various events to hook into spawner-related actions:
 
 | Event | Description | Cancellable |
 |-------|-------------|:-----------:|
-| `SpawnerPlaceEvent` | Spawner placement | ✅ |
-| `SpawnerPlayerBreakEvent` | Player breaks spawner | ✅ |
-| `SpawnerStackEvent` | Spawner stacking | ✅ |
-| `SpawnerEggChangeEvent` | Type change with egg | ✅ |
-| `SpawnerExpClaimEvent` | Experience claiming | ✅ |
-| `SpawnerRemoveEvent` | GUI spawner removal | ✅ |
-| `SpawnerExplodeEvent` | Explosion damage | ❌ |
+| `SpawnerBreakEvent` | Spawner broken by a player or an explosion | ❌ |
+| `SpawnerPlaceEvent` | Spawner placed by player | ✅ |
+| `SpawnerPlayerBreakEvent` | Spawner broken by player | ✅ |
+| `SpawnerStackEvent` | Spawners stacking by hand | ✅ |
+| `SpawnerSellEvent` | Selling item from spawner storage | ✅ |
+| `SpawnerExpClaimEvent` | Experience claimed from spawner | ✅ |
+| `SpawnerEggChangeEvent` | Spawner type changed with egg | ✅ |
+| `SpawnerExplodeEvent` | Spawners destroyed by explosion | ❌ |
+| `SpawnerRemoveEvent` | Unstack spawners from the stacker GUI | ✅ |
 
-### Event Handling Examples
+### SpawnerBreakEvent
+Triggered when a spawner is broken by a player or explosion.
 
 ```java
-import github.nighter.smartspawner.api.events.*;
+import github.nighter.smartspawner.api.events.SpawnerBreakEvent;
 
-public class SpawnerEventListener implements Listener {
+@EventHandler
+public void onSpawnerBreak(SpawnerBreakEvent event) {
+    Entity breaker = event.getEntity();
+    Location location = event.getLocation();
+    int quantity = event.getQuantity();
     
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onSpawnerPlace(SpawnerPlaceEvent event) {
-        Player player = event.getPlayer();
-        Location location = event.getLocation();
-        
-        // Custom placement logic
-        if (isRestrictedArea(location)) {
-            event.setCancelled(true);
-            player.sendMessage("Cannot place spawners here!");
-            return;
-        }
-        
-        // Log placement
-        logAction(player, "PLACE", location);
-        player.sendMessage("Spawner placed successfully!");
-    }
-    
-    @EventHandler
-    public void onSpawnerStack(SpawnerStackEvent event) {
-        Player player = event.getPlayer();
-        int added = event.getNewQuantity() - event.getOldQuantity();
-        
-        // Custom stacking rewards
-        if (added >= 10) {
-            giveBonus(player, "mass_stack");
-        }
-        
-        // Update statistics
-        updatePlayerStats(player, "spawners_stacked", added);
-    }
-    
-    @EventHandler
-    public void onSpawnerBreak(SpawnerPlayerBreakEvent event) {
-        Player player = event.getPlayer();
-        int quantity = event.getQuantity();
-        
-        // Custom break rewards
-        double bonus = quantity * 0.1; // 10% bonus per spawner
-        giveExperience(player, bonus);
-        
-        // Protection check
-        if (!hasBreakPermission(player, event.getLocation())) {
-            event.setCancelled(true);
-            player.sendMessage("You cannot break spawners here!");
-        }
-    }
-    
-    @EventHandler
-    public void onExpClaim(SpawnerExpClaimEvent event) {
-        Player player = event.getPlayer();
-        int originalExp = event.getExpQuantity();
-        
-        // VIP multiplier
-        if (player.hasPermission("spawner.vip")) {
-            event.setExpQuantity((int) (originalExp * 1.5));
-            player.sendMessage("VIP bonus applied! (+50% EXP)");
-        }
-        
-        // Daily limit check
-        if (exceededDailyLimit(player)) {
-            event.setCancelled(true);
-            player.sendMessage("Daily EXP limit reached!");
-        }
-    }
-    
-    @EventHandler
-    public void onTypeChange(SpawnerEggChangeEvent event) {
-        Player player = event.getPlayer();
-        EntityType oldType = event.getOldEntityType();
-        EntityType newType = event.getNewEntityType();
-        
-        // Change cost
-        double cost = getChangeCost(oldType, newType);
-        if (!chargePlayer(player, cost)) {
-            event.setCancelled(true);
-            player.sendMessage("Insufficient funds for type change!");
-            return;
-        }
-        
-        player.sendMessage("Spawner changed from " + oldType + " to " + newType);
+    // Handle spawner break
+    if (breaker instanceof Player) {
+        Player player = (Player) breaker;
+        player.sendMessage("You broke " + quantity + " spawner(s)!");
     }
 }
 ```
 
-### Advanced Integration
+### SpawnerPlaceEvent
+Triggered when a spawner is placed.
 
-#### Custom Spawner Types
 ```java
-public class CustomSpawnerManager {
+import github.nighter.smartspawner.api.events.SpawnerPlaceEvent;
+
+@EventHandler
+public void onSpawnerPlace(SpawnerPlaceEvent event) {
+    Player player = event.getPlayer();
+    Location location = event.getLocation();
     
-    private final SmartSpawnerAPI api;
-    private final Map<String, EntityType> customTypes;
+    // Handle spawner placement
+    player.sendMessage("Spawner placed at " + location.toString());
+}
+```
+
+### SpawnerPlayerBreakEvent
+Triggered specifically when a player breaks a spawner.
+
+```java
+import github.nighter.smartspawner.api.events.SpawnerPlayerBreakEvent;
+
+@EventHandler
+public void onPlayerBreakSpawner(SpawnerPlayerBreakEvent event) {
+    Player player = event.getPlayer();
+    int quantity = event.getQuantity();
     
-    public boolean createCustomSpawner(Player player, String customType) {
-        EntityType entityType = customTypes.get(customType);
-        if (entityType == null) {
-            player.sendMessage("Unknown spawner type: " + customType);
-            return false;
-        }
-        
-        ItemStack spawner = api.createSpawnerItem(entityType, 1);
-        
-        // Add custom NBT or metadata
-        addCustomData(spawner, customType);
-        
-        player.getInventory().addItem(spawner);
-        return true;
-    }
-    
-    private void addCustomData(ItemStack item, String customType) {
-        // Implementation depends on your NBT library
-        // Add custom lore, enchantments, or metadata
+    // Cancel if player doesn't have permission
+    if (!player.hasPermission("spawner.break")) {
+        event.setCancelled(true);
+        player.sendMessage("No permission to break spawners!");
     }
 }
 ```
 
-#### Statistics Tracking
+### SpawnerStackEvent
+Triggered when spawners are stacked by hand.
+
 ```java
-public class SpawnerStats {
+import github.nighter.smartspawner.api.events.SpawnerStackEvent;
+
+@EventHandler
+public void onSpawnerStack(SpawnerStackEvent event) {
+    Player player = event.getPlayer();
+    int newStackSize = event.getNewStackSize();
     
-    private final Map<UUID, PlayerStats> playerStats = new HashMap<>();
-    
-    @EventHandler
-    public void onSpawnerPlace(SpawnerPlaceEvent event) {
-        updateStat(event.getPlayer(), "placed", 1);
-    }
-    
-    @EventHandler
-    public void onSpawnerBreak(SpawnerPlayerBreakEvent event) {
-        updateStat(event.getPlayer(), "broken", event.getQuantity());
-    }
-    
-    private void updateStat(Player player, String stat, int amount) {
-        PlayerStats stats = playerStats.computeIfAbsent(
-            player.getUniqueId(), 
-            k -> new PlayerStats()
-        );
-        stats.increment(stat, amount);
-    }
+    player.sendMessage("Spawner stacked! New size: " + newStackSize);
 }
 ```
 
-## Best Practices
+### SpawnerSellEvent
+Triggered when items are sold from spawner storage.
 
-### Performance Considerations
-- Cache API instance after initialization
-- Use async operations for database queries
-- Avoid heavy processing in event handlers
-- Implement proper null checks
-
-### Error Handling
 ```java
-public boolean safeSpawnerOperation(Player player) {
-    try {
-        SmartSpawnerAPI api = SmartSpawnerProvider.getAPI();
-        if (api == null) {
-            player.sendMessage("SmartSpawner not available");
-            return false;
-        }
-        
-        // Your operation here
-        return true;
-        
-    } catch (Exception e) {
-        getLogger().severe("Error in spawner operation: " + e.getMessage());
-        player.sendMessage("An error occurred. Please try again.");
-        return false;
-    }
+import github.nighter.smartspawner.api.events.SpawnerSellEvent;
+
+@EventHandler
+public void onSpawnerSell(SpawnerSellEvent event) {
+    Player player = event.getPlayer();
+    double price = event.getPrice();
+    
+    // Add bonus money
+    double bonus = price * 0.1; // 10% bonus
+    // Give bonus to player via your economy plugin
 }
 ```
 
-### Version Compatibility
+### SpawnerExpClaimEvent
+Triggered when experience is claimed from spawners.
+
 ```java
-public void checkAPIVersion() {
-    SmartSpawnerAPI api = SmartSpawnerProvider.getAPI();
-    if (api != null) {
-        String version = api.getVersion(); // If available
-        getLogger().info("SmartSpawner API version: " + version);
-    }
+import github.nighter.smartspawner.api.events.SpawnerExpClaimEvent;
+
+@EventHandler
+public void onExpClaim(SpawnerExpClaimEvent event) {
+    Player player = event.getPlayer();
+    int expAmount = event.getExpAmount();
+    
+    // Modify experience amount
+    event.setExpAmount(expAmount * 2); // Double EXP
 }
 ```
+
+### SpawnerEggChangeEvent
+Triggered when a spawner's entity type is changed using spawn eggs.
+
+```java
+import github.nighter.smartspawner.api.events.SpawnerEggChangeEvent;
+
+@EventHandler
+public void onSpawnerEggChange(SpawnerEggChangeEvent event) {
+    Player player = event.getPlayer();
+    EntityType oldType = event.getOldEntityType();
+    EntityType newType = event.getNewEntityType();
+    
+    player.sendMessage("Changed spawner from " + oldType + " to " + newType);
+}
+```
+
+### SpawnerExplodeEvent
+Triggered when spawners are destroyed by explosions.
+
+```java
+import github.nighter.smartspawner.api.events.SpawnerExplodeEvent;
+
+@EventHandler
+public void onSpawnerExplode(SpawnerExplodeEvent event) {
+    Location location = event.getLocation();
+    int quantity = event.getQuantity();
+    
+    // Log explosion
+    getLogger().info("Spawners destroyed by explosion at " + location);
+}
+```
+
+### SpawnerRemoveEvent
+Triggered when spawners are unstacked from the stacker GUI.
+
+```java
+import github.nighter.smartspawner.api.events.SpawnerRemoveEvent;
+
+@EventHandler
+public void onSpawnerRemove(SpawnerRemoveEvent event) {
+    Location location = event.getLocation();
+    
+    // Handle spawner removal
+    getLogger().info("Spawner removed at " + location);
+}
+```
+
+<br>
+<br>
 
 ---
 
-*Last update: September 15, 2025 16:32:48*
+*Last update: September 21, 2025 12:50:41*

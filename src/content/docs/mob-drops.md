@@ -16,10 +16,7 @@ MOB_NAME:
       chance: <percentage>
       # Optional properties
       durability: <min>-<max>
-      potion_effect:
-        type: <POTION_TYPE>
-        extended: <true/false>
-        upgraded: <true/false>
+      potion_type: <POTION_TYPE>  # For tipped arrows
 ```
 
 ## Core Properties
@@ -30,60 +27,78 @@ MOB_NAME:
 | **amount** | `1-3` | Quantity range of items generated |
 | **chance** | `50.0` | Drop probability (0.0-100.0) |
 | **durability** | `1-384` | Durability range for tools/weapons |
-| **potion_effect** | Object | For potions and tipped arrows |
+| **potion_type** | `POISON` | Potion type for tipped arrows |
 
-### Potion Effects
+### Validation Rules
+- Experience must be non-negative number
+- Amount format: `min-max` where min ≤ max
+- Chance between 0.0-100.0
 
-```yaml
-potion_effect:
-  type: POISON           # Effect type
-  extended: false        # Longer duration
-  upgraded: true         # Higher potency
-```
+## Supported Types
 
-> **Note:** Only one of `extended` or `upgraded` can be `true`.
+### Common Entities
+**Full List:** [Paper Entity Documentation](https://jd.papermc.io/paper/org/bukkit/entity/Entity.html)
+
+### Common Materials
+**Full List:** [Paper Material Documentation](https://jd.papermc.io/paper/org/bukkit/Material.html)
+
+### Potion Types (for Tipped Arrows)
+**Full List:** [Paper PotionType Documentation](https://jd.papermc.io/paper/org/bukkit/potion/PotionType.html)
+
+<br>
+
+Potion types use predefined names from the Paper API. Common formats include:
+
+- **Basic**: Standard effect duration and potency
+- **Extended**: Same potency but longer duration
+- **Strong**: Higher potency but standard duration
+
+Examples:
+- `POISON`: Causes damage over time (0:45 duration, 1 damage/second)
+- `LONG_POISON`: Extended poison effect (2:15 duration, 1 damage/second)
+- `STRONG_POISON`: Stronger poison (0:22 duration, 2 damage/second)
 
 ## Examples
 
 ### Basic Mob
 ```yaml
-ZOMBIE:
-  experience: 5
+# Reference: https://minecraft.wiki/w/Cow#Drops
+COW:
+  experience: 3
   loot:
-    ROTTEN_FLESH:
+    LEATHER:
       amount: 0-2
       chance: 100.0
-    IRON_INGOT:
-      amount: 1-1
-      chance: 0.83
-    CARROT:
-      amount: 1-1
-      chance: 0.83
-    POTATO:
-      amount: 1-1
-      chance: 0.83
+    BEEF:
+      amount: 1-3
+      chance: 100.0
 ```
 
 ### Mob with Weapons
 ```yaml
-SKELETON:
+# Reference: https://minecraft.wiki/w/Wither_Skeleton#Drops
+WITHER_SKELETON:
   experience: 5
   loot:
+    COAL:
+      amount: 1-1
+      chance: 33.33
     BONE:
       amount: 0-2
       chance: 100.0
-    ARROW:
-      amount: 0-2
-      chance: 100.0
-    BOW:
+    WITHER_SKELETON_SKULL:
+      amount: 1-1
+      chance: 2.5
+    STONE_SWORD:
       amount: 1-1
       chance: 8.5
-      durability: 1-384
+      durability: 1-131
 ```
 
 ### Mob with Tipped Arrows
 ```yaml
-STRAY:
+# Reference: https://minecraft.wiki/w/Bogged#Drops
+BOGGED:
   experience: 5
   loot:
     BONE:
@@ -99,53 +114,26 @@ STRAY:
     TIPPED_ARROW:
       amount: 0-2
       chance: 50.0
-      potion_type: SLOWNESS
+      potion_type: POISON
 ```
 
-## Supported Types
-
-### Common Entities
-**Hostile:** `ZOMBIE`, `SKELETON`, `CREEPER`, `SPIDER`, `ENDERMAN`, `BLAZE`, `WITCH`
-**Passive:** `COW`, `PIG`, `CHICKEN`, `SHEEP`, `VILLAGER`
-**Boss:** `ENDER_DRAGON`, `WITHER`, `WARDEN`
-
-**Full List:** [Paper Entity Documentation](https://jd.papermc.io/paper/org/bukkit/entity/Entity.html)
-
-### Common Materials
-**Items:** `IRON_INGOT`, `GOLD_INGOT`, `DIAMOND`, `EMERALD`, `STRING`, `BONE`
-**Food:** `BEEF`, `PORK`, `CHICKEN`, `BREAD`, `CARROT`, `POTATO`
-**Weapons:** `DIAMOND_SWORD`, `BOW`, `CROSSBOW`, `TRIDENT`
-
-**Full List:** [Paper Material Documentation](https://jd.papermc.io/paper/org/bukkit/Material.html)
-
-### Potion Effects
-`HEALING`, `HARMING`, `POISON`, `REGENERATION`, `STRENGTH`, `WEAKNESS`, `SWIFTNESS`, `SLOWNESS`, `FIRE_RESISTANCE`, `INVISIBILITY`
-
-**Full List:** [Paper PotionType Documentation](https://jd.papermc.io/paper/org/bukkit/potion/PotionType.html)
-
-## Configuration Guide  
-
-### Validation Rules
-1. Experience must be non-negative number
-2. Amount format: `min-max` where min ≤ max
-3. Chance between 0.0-100.0
-4. Valid entity and material names only
-5. Potion effects: only one enhancement per effect
-
-### No Drops Configuration
-```yaml
+### Mob with no Drops
+```yamlBAT:
 BAT:
   experience: 0
   # No loot section = no drops
-```
+``` 
 
 ## Default Configuration
 
 SmartSpawner includes comprehensive defaults based on Minecraft Wiki data.
 
-- **View Online:** [GitHub Repository](https://github.com/ptthanh02/SmartSpawner/blob/main/core/src/main/resources/mob_drops.yml)
+- **View Online:** [GitHub Repository](https://github.com/NighterDevelopment/smartspawner/blob/main/core/src/main/resources/mob_drops.yml)
 - **Auto-Regenerate:** Delete `mob_drops.yml` and restart server
+
+<br>
+<br>
 
 ---
 
-*Last update: September 15, 2025 16:32:48*
+*Last update: September 21, 2025 12:12:16*

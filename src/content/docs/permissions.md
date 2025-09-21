@@ -15,22 +15,28 @@ Understanding the **Default** column in the permissions table:
 - **`true`** - All players have this permission by default (everyone can use this feature)
 - **`false`** - No players have this permission by default (must be explicitly granted)
 
-> **Note:** Server operators automatically have all permissions set to `true` regardless of the default setting due to `smartspawner.*` permission.
+> **Note:** To execute commands, you must first grant the base permission `smartspawner.admin`, then grant the specific command permission (e.g., both `smartspawner.admin` and `smartspawner.reload` are required to use the reload command).
 
-### Permission Nodes.
+### Permission Nodes
 | **Permission**                    | **Description**                                       | **Default** |
 |-----------------------------------|-------------------------------------------------------|-------------|
-| `smartspawner.*`                 | Grants access to all SmartSpawner permissions        | `op`        |
-| `smartspawner.reload`            | Allows reloading the SmartSpawner plugin             | `op`        |
-| `smartspawner.give`              | Allows giving spawners to yourself or other players  | `op`        |
-| `smartspawner.list`              | Allows accessing the spawner list command            | `op`        |
-| `smartspawner.hologram`          | Allows toggling hologram display for spawners        | `op`        |
-| `smartspawner.changetype`        | Allows changing spawner type using spawn eggs        | `op`      |
-| `smartspawner.stack`             | Allows stacking spawners                              | `true`      |
-| `smartspawner.break`             | Allows breaking spawners                              | `true`      |
-| `smartspawner.sellall`           | Allows selling items in the spawner storage GUI      | `true`      |
-| `smartspawner.limits.bypass`     | Bypass spawner limits per chunk                      | `false`     |
+| `smartspawner.admin`             | Full access to all SmartSpawner features             | `op`        |
+| `smartspawner.reload`            | Permission to reload SmartSpawner plugin             | `op`        |
+| `smartspawner.give`              | Allow giving spawners to yourself                    | `op`        |
+| `smartspawner.list`              | Allow viewing list of spawners and teleporting to them | `op`      |
+| `smartspawner.hologram`          | Allow toggling hologram for spawners                 | `op`        |
+| `smartspawner.changetype`        | Allow changing spawner type with spawn egg           | `op`        |
+| `smartspawner.stack`             | Allow stacking spawners                              | `true`      |
+| `smartspawner.break`             | Allow breaking spawners                              | `true`      |
+| `smartspawner.sellall`           | Allow selling items in spawner storage GUI          | `true`      |
+| `smartspawner.limits.bypass`     | Bypass spawner limits per chunk                     | `false`     |
+
+<br>
+<br>
+
+<br>
+<br>
 
 ---
 
-*Last update: September 15, 2025 16:32:48*
+*Last update: September 21, 2025 11:47:09*
