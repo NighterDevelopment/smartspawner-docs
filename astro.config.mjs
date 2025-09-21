@@ -19,7 +19,7 @@ export default defineConfig({
 				'./src/styles/custom.css',
 			],
 			description: 'A customizable spawner GUI plugin that generates mob drops and experience directly, without spawning mobs',
-			favicon: './src/assets/Spawner.png',
+			favicon: '_astro/Spawner.C_FpHVaJ_Pv2fJ.webp',
 			// logo: {
 			// 		src: './src/assets/logo.png',
 			// },
