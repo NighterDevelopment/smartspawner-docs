@@ -29,7 +29,7 @@ SmartSpawner respects all major protection plugins to ensure proper permissions 
 - **[GriefPrevention](https://modrinth.com/plugin/griefprevention)**
 - **[Lands](https://www.spigotmc.org/resources/lands-%E2%AD%95-land-claim-plugin-%E2%9C%85-grief-prevention-protection-gui-management-nations-wars-1-21-support.53313/)**
 - **[Towny Advanced](https://www.spigotmc.org/resources/towny-advanced.72694/)**
-- **[SimpleClaimSystem](https://modrinth.com/plugin/simpleclaimsystem)**
+- **[SimpleClaimSystem](https://modrinth.com/plugin/simpleclaimsystem)** - **[📖 Setup Guide](/SmartSpawner-Docs/integrations/SimpleClaimSystem)**
 - **[RedProtect](https://www.spigotmc.org/resources/redprotect-anti-grief-server-protection-region-management-mod-mobs-flag-compat-1-7-1-21.15841/)**
 - **[MinePlots](https://builtbybit.com/resources/mineplots.21646/)**
 
