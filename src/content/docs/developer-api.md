@@ -36,7 +36,7 @@ dependencies {
 }
 ```
 
-> **Note:** Replace `LATEST` with the specific version number (e.g., `v1.4.1`) for production builds.
+> **Note:** Replace `LATEST` with the specific version number for production builds.
 
 ### Plugin Configuration
 
@@ -104,7 +104,6 @@ ItemStack zombieSpawner = api.createSpawnerItem(EntityType.ZOMBIE);
 player.getInventory().addItem(zombieSpawner);
 ```
 
-### `createSpawnerItem()`
 Creates a SmartSpawner item with custom amount.
 
 ```java
@@ -307,6 +306,9 @@ public void onSpawnerRemove(SpawnerRemoveEvent event) {
 <br>
 <br>
 
+<br>
+<br>
+
 ---
 
-*Last update: September 21, 2025 12:50:41*
+*Last update: September 26, 2025 23:55:12*

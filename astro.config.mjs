@@ -43,7 +43,13 @@ export default defineConfig({
 					items: [
 						{ label: 'Commands', slug: 'commands' },
 						{ label: 'Permissions', slug: 'permissions' },
-						{ label: 'Mob Drops', slug: 'mob-drops' },
+					],
+				},
+				{
+					label: 'Configuration',
+					items: [
+						{ label: 'config.yml', slug: 'configuration' },
+						{ label: 'mob_drops.yml', slug: 'mob-drops' },
 					],
 				},
 				{

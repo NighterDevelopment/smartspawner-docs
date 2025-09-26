@@ -118,7 +118,8 @@ BOGGED:
 ```
 
 ### Mob with no Drops
-```yamlBAT:
+
+```yaml:
 BAT:
   experience: 0
   # No loot section = no drops
@@ -134,6 +135,9 @@ SmartSpawner includes comprehensive defaults based on Minecraft Wiki data.
 <br>
 <br>
 
+<br>
+<br>
+
 ---
 
-*Last update: September 21, 2025 12:12:16*
+*Last update: September 27, 2025 00:08:54*
