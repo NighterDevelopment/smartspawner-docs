@@ -164,18 +164,70 @@ a:hover::after {
   }
 }
 
-/* Page transition effect */
-.page-content {
-  animation: pageSlideIn 0.8s ease-out;
+/* Enhanced hero section with subtle overlay */
+.hero {
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes pageSlideIn {
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 1;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Floating animation for cards */
+.sl-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sl-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Add sparkle effect to the title */
+.hero h1 {
+  background: linear-gradient(45deg, #4a00e0, #8e2de2, #9c27b0, #ba68c8, #ce93d8, #e1bee7);
+  background-size: 400% 400%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s ease infinite, textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes textGlow {
+  from {
+    text-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
+  }
+  to {
+    text-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
   }
 }
