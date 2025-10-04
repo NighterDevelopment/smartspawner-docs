@@ -152,6 +152,7 @@ SmartSpawner provides various events to hook into spawner-related actions:
 | `SpawnerEggChangeEvent` | Spawner type changed with egg | ✅ |
 | `SpawnerExplodeEvent` | Spawners destroyed by explosion | ❌ |
 | `SpawnerRemoveEvent` | Unstack spawners from the stacker GUI | ✅ |
+| `SpawnerOpenGUIEvent` | GUI opened by player | ✅ |
 
 ### SpawnerBreakEvent
 Triggered when a spawner is broken by a player or explosion.
@@ -303,12 +304,29 @@ public void onSpawnerRemove(SpawnerRemoveEvent event) {
 }
 ```
 
-<br>
-<br>
+### SpawnerOpenGUIEvent
+Triggered when a player opens the spawner GUI.
+
+```java
+import github.nighter.smartspawner.api.events.SpawnerOpenGUIEvent;
+
+@EventHandler
+public void onSpawnerOpenGUI(SpawnerOpenGUIEvent event) {
+    Player player = event.getPlayer();
+    EntityType entityType = event.getEntityType();
+    boolean isRefresh = event.isRefresh();
+    
+    // Handle GUI open
+    if (!player.hasPermission("spawner.gui.open")) {
+        event.setCancelled(true);
+        player.sendMessage("No permission to open spawner GUI!");
+    }
+}
+```
 
 <br>
 <br>
 
 ---
 
-*Last update: September 26, 2025 23:55:12*
+*Last update: October 4, 2025 08:48:21*
