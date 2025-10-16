@@ -31,6 +31,7 @@ SmartSpawner respects all major protection plugins to ensure proper permissions 
 - **[Towny Advanced](https://www.spigotmc.org/resources/towny-advanced.72694/)**
 - **[SimpleClaimSystem](https://modrinth.com/plugin/simpleclaimsystem)** - **[📖 Setup Guide](/SmartSpawner-Docs/integrations/SimpleClaimSystem)**
 - **[RedProtect](https://www.spigotmc.org/resources/redprotect-anti-grief-server-protection-region-management-mod-mobs-flag-compat-1-7-1-21.15841/)**
+- **[Residence](https://www.spigotmc.org/resources/residence-1-7-10-up-to-1-21.11480/)**
 - **[MinePlots](https://builtbybit.com/resources/mineplots.21646/)**
 
 ## World Management Systems
@@ -58,6 +59,9 @@ Specialized support for skyblock environments with enhanced features:
 
 SmartSpawner also maintains compatibility with numerous other plugins through its flexible API system, ensuring broad ecosystem support even for unlisted plugins that follow standard Paper/Folia conventions.
 
+<br>
+<br>
+
 ---
 
-*Last update: September 15, 2025 16:32:48*
+*Last update: October 16, 2025 15:16:02*

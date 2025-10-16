@@ -16,12 +16,14 @@ All commands can be used with these aliases:
 
 | Command | Permission |
 |---------|-------------|
-| `/ss give spawner <player> <type> [amount]` | `smartspawner.give` |
-| `/ss give vanilla_spawner <player> <type> [amount]` | `smartspawner.give` |
-| `/ss hologram` | `smartspawner.hologram` |
-| `/ss list` | `smartspawner.list` |
-| `/ss prices` | `smartspawner.prices` |
-| `/ss reload` | `smartspawner.reload` |
+| `/ss give spawner <player> <type> [amount]` | `smartspawner.command.give` |
+| `/ss give vanilla_spawner <player> <type> [amount]` | `smartspawner.command.give` |
+| `/ss hologram` | `smartspawner.command.hologram` |
+| `/ss list` | `smartspawner.command.list` |
+| `/ss prices` | `smartspawner.command.prices` |
+| `/ss reload` | `smartspawner.command.reload` |
+| `/ss clear holograms` | `smartspawner.command.clear` |
+| `/ss clear ghost_spawners` | `smartspawner.command.clear` |
 
 ## Command Details
 
@@ -100,6 +102,31 @@ Reload all configuration files without server restart.
 - Language files
 - Hook integrations
 
+### `/ss clear holograms`
+
+Kill all text display holograms from the server.
+
+**Use Cases:**
+- Removing stuck or glitched holograms
+- Resetting hologram system
+
+**Features:**
+- Removes all SmartSpawner text display entities
+- Safe operation that only affects hologram entities
+- Instant cleanup without server restart
+
+### `/ss clear ghost_spawners`
+
+Automatically detects and removes broken spawners without physical blocks.
+
+**Use Cases:**
+- Cleaning up database entries for spawners that no longer exist
+- Fixing spawner data corruption
+- Routine maintenance to keep spawner data clean
+
+<br>
+<br>
+
 ---
 
-*Last update: September 15, 2025 23:26:58*
+*Last update: October 16, 2025 15:14:45*

@@ -15,28 +15,35 @@ Understanding the **Default** column in the permissions table:
 - **`true`** - All players have this permission by default (everyone can use this feature)
 - **`false`** - No players have this permission by default (must be explicitly granted)
 
-> **Note:** To execute commands, you must first grant the base permission `smartspawner.admin`, then grant the specific command permission (e.g., both `smartspawner.admin` and `smartspawner.reload` are required to use the reload command).
-
 ### Permission Nodes
+
+#### Command Permissions
+
+> **Note:** The base permission `smartspawner.command.use` is required to access any SmartSpawner commands
+
 | **Permission**                    | **Description**                                       | **Default** |
 |-----------------------------------|-------------------------------------------------------|-------------|
-| `smartspawner.admin`             | Full access to all SmartSpawner features             | `op`        |
-| `smartspawner.reload`            | Permission to reload SmartSpawner plugin             | `op`        |
-| `smartspawner.give`              | Allow giving spawners to yourself                    | `op`        |
-| `smartspawner.list`              | Allow viewing list of spawners and teleporting to them | `op`      |
-| `smartspawner.hologram`          | Allow toggling hologram for spawners                 | `op`        |
+| `smartspawner.command.use`       | Main command access (base permission for all commands) | `op`        |
+| `smartspawner.command.reload`    | Permission to reload SmartSpawner plugin               | `op`        |
+| `smartspawner.command.give`      | Allow giving spawners to players                       | `op`        |
+| `smartspawner.command.list`      | Allow viewing list of spawners in your server          | `op`        |
+| `smartspawner.command.hologram`  | Allow toggling hologram for spawners                   | `op`        |
+| `smartspawner.command.prices`    | Allow viewing spawner prices GUI                       | `op`        |
+| `smartspawner.command.clear`     | Allow clearing holograms and ghost spawners            | `op`        |
+
+#### Feature Permissions
+
+| **Permission**                    | **Description**                                       | **Default** |
+|-----------------------------------|-------------------------------------------------------|-------------|
 | `smartspawner.changetype`        | Allow changing spawner type with spawn egg           | `op`        |
 | `smartspawner.stack`             | Allow stacking spawners                              | `true`      |
 | `smartspawner.break`             | Allow breaking spawners                              | `true`      |
-| `smartspawner.sellall`           | Allow selling items in spawner storage GUI          | `true`      |
-| `smartspawner.limits.bypass`     | Bypass spawner limits per chunk                     | `false`     |
-
-<br>
-<br>
+| `smartspawner.sellall`           | Allow selling items in spawner storage GUI           | `true`      |
+| `smartspawner.limits.bypass`     | Bypass spawner limits per chunk                      | `false`     |
 
 <br>
 <br>
 
 ---
 
-*Last update: September 21, 2025 11:47:09*
+*Last update: October 16, 2025 15:13:54*
