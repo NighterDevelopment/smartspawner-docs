@@ -17,9 +17,9 @@ Understanding the **Default** column in the permissions table:
 
 ### Permission Nodes
 
-#### Command Permissions
+> **Note:** To execute commands, you must first grant the base permission `smartspawner.command.use`, then grant the specific command permission (e.g., both `smartspawner.command.use and smartspawner.command.reload are required to use the reload command)
 
-> **Note:** The base permission `smartspawner.command.use` is required to access any SmartSpawner commands
+#### Command Permissions
 
 | **Permission**                    | **Description**                                       | **Default** |
 |-----------------------------------|-------------------------------------------------------|-------------|
