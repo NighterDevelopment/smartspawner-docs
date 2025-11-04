@@ -49,7 +49,7 @@ export default defineConfig({
 					label: 'Configuration',
 					items: [
 						{ label: 'config.yml', slug: 'configuration' },
-						{ label: 'mob_drops.yml', slug: 'mob-drops' },
+						{ label: 'spawners_settings.yml', slug: 'spawners_settings' },
 					],
 				},
 				{
