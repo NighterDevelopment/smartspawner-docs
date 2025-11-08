@@ -18,6 +18,7 @@ All commands can be used with these aliases:
 |---------|-------------|
 | `/ss give spawner <player> <type> [amount]` | `smartspawner.command.give` |
 | `/ss give vanilla_spawner <player> <type> [amount]` | `smartspawner.command.give` |
+| `/ss give item_spawner <player> <item_type> [amount]` | `smartspawner.command.give` |
 | `/ss hologram` | `smartspawner.command.hologram` |
 | `/ss list` | `smartspawner.command.list` |
 | `/ss prices` | `smartspawner.command.prices` |
@@ -67,6 +68,29 @@ Give vanilla spawners to a player.
 
 **Supported Entity Types:**
 All vanilla Minecraft entities are supported. The command provides auto-completion suggestions as you type.
+
+### `/ss give item_spawner`
+
+```bash
+/ss give item_spawner <player> <item_type> [amount]
+```
+
+Give item spawners to a player.
+
+**About Item Spawners:**
+- **Resource Generation**: Generates items directly without spawning mobs
+- **Appearance**: Mob spinning inside replaced with an item spinning representing the spawner type
+- **GUI Interface**: Right-click to access spawner GUI (similar to smart spawners)
+- **Stackable**: Multiple item spawners can be stacked for increased efficiency
+- **Configurable**: Each item type has configurable drops and experience in `item_spawners_settings.yml`
+
+**Parameters:**
+- `<player>` - Target player (supports player selectors like `@p`, `@a`, etc.)
+- `<item_type>` - Material type (DIAMOND, NETHERITE_INGOT, EMERALD, etc.)
+- `[amount]` - Optional quantity (1-6400, defaults to 1 if not specified)
+
+**Configuration:**
+See [Item Spawner Settings](/item_spawners_settings) for details on configuring item spawners.
 
 ### `/ss hologram`
 
@@ -127,6 +151,9 @@ Automatically detects and removes broken spawners without physical blocks.
 <br>
 <br>
 
+<br>
+<br>
+
 ---
 
-*Last update: October 16, 2025 15:14:45*
+*Last update: November 8, 2025 23:33:28*

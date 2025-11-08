@@ -50,6 +50,7 @@ export default defineConfig({
 					items: [
 						{ label: 'config.yml', slug: 'configuration' },
 						{ label: 'spawners_settings.yml', slug: 'spawners_settings' },
+						{ label: 'item_spawners_settings.yml', slug: 'item_spawners_settings' },
 					],
 				},
 				{

@@ -1,9 +1,17 @@
 ---
 title: Spawner Settings Configuration
-description: Configure spawner appearance, mob drops, and experience values for optimal spawner mechanics.
+description: Configure spawner appearance, loot drops, and experience values for resource generation.
 ---
 
-SmartSpawner allows you to customize spawner appearance, mob drops, and experience through the `spawners_settings.yml` file. Control spawner head textures, what items spawners generate, drop rates, quantities, and special properties.
+SmartSpawner allows you to create spawners that generate resources without spawning mobs. Configure item spawner appearance, drops, and experience through the `spawners_settings.yml` file.
+
+:::note[Important: Drop Multiplier]
+Each time a spawner is triggered, it will generate between **min_mobs** and **max_mobs** (default: 1 to 4) times the drops specified below. This means the actual drops can be significantly higher than the base amounts configured.
+:::
+
+:::caution[Current Limitations]
+Smart spawners currently **do not support** potions and enchanted books. Only **tipped arrows** are supported with potion effects.
+:::
 
 ## Configuration Format
 
@@ -50,6 +58,28 @@ MOB_NAME:
 - Amount format: `min-max` where min ≤ max
 - Chance between 0.0-100.0
 - Custom texture can be `null` for vanilla mob heads
+
+## Understanding Drop Mechanics
+
+### Base Drops vs Actual Drops
+The `amount` value in the configuration is the **base amount** per spawner cycle. The actual amount generated is:
+
+```
+Actual Drops = Base Amount × Random(min_mobs, max_mobs)
+```
+
+For example, if `min_mobs=1` and `max_mobs=4` (defaults):
+- Base amount `1-1` → Actual drops: `1-4` items
+- Base amount `2-3` → Actual drops: `2-12` items
+- Base amount `1-2` → Actual drops: `1-8` items
+
+### Multiple Loot Entries
+Each loot entry is rolled independently:
+1. Check if the drop occurs (based on `chance`)
+2. Determine base amount (within `amount` range)
+3. Multiply by spawner trigger count (min_mobs to max_mobs)
+
+This means a spawner can generate multiple different items from a single trigger.
 
 ## Supported Types
 
@@ -197,12 +227,31 @@ Some mobs use vanilla Minecraft head materials:
 - `SKELETON_SKULL` - Regular skeleton
 - `WITHER_SKELETON_SKULL` - Wither skeleton
 - `ZOMBIE_HEAD` - Zombie
-- `CREEPER_HEAD` - Creeper
+*Last update: November 8, 2025*
 - `PIGLIN_HEAD` - Piglin/Piglin Brute
 - `DRAGON_HEAD` - Ender dragon
 
 When using vanilla heads, set `custom_texture: null`.
 
+## Command Usage
+
+To give smart spawners to players, use:
+
+```bash
+/ss give spawner <player> <item_type> [amount]
+```
+
+**Example:**
+```bash
+/ss give spawner @p skeleton 1
+/ss give spawner Player123 wither_skeleton 3
+```
+
+See the [Commands](/commands) page for more details.
+
+<br>
+<br>
+
 ---
 
-*Last update: November 4, 2025 16:43:02*
+*Last update: November 8, 2025 23:29:25*
