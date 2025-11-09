@@ -9,7 +9,7 @@ Before installing SmartSpawner, ensure your server meets these requirements:
 
 | Requirement | Specification |
 |-------------|---------------|
-| **Minecraft Version** | 1.21 - 1.21.8 |
+| **Minecraft Version** | 1.21 - 1.21.10 |
 | **Server Software** | [Paper](https://papermc.io/downloads/paper), [Folia](https://papermc.io/downloads/folia), [Purpur](https://purpurmc.org/) or compatible forks |
 | **Java Version** | Java 21+ (latest LTS recommended) |
 
@@ -52,7 +52,8 @@ You should see SmartSpawner in the list with a green status.
 The plugin creates configuration files automatically in `plugins/SmartSpawner/`:
 
 - `config.yml` - Main configuration
-- `mob_drops.yml` - Mob drop settings
+- `spawners_settings.yml` - Smart spawner loot configuration
+- `item_spawners_settings.yml` - Item spawner loot configuration
 - `item_prices.yml` - Item price settings
 - `spawners_data.yml` - Spawner data
 - `language` - Language folder
@@ -75,6 +76,9 @@ If you encounter issues:
 2. **Join our Discord** for community support: [Discord](https://discord.gg/zrnyG4CuuT)
 3. **Report bugs** on GitHub: [Issues](https://github.com/ptthanh02/SmartSpawner/issues)
 
+<br>
+<br>
+
 ---
 
-*Last update: September 15, 2025 16:32:48*
+*Last update: November 9, 2025 18:53:43*

@@ -83,50 +83,120 @@ public class YourPlugin extends JavaPlugin {
 
 ## API Methods
 
+### Creation Methods
+
 | Method | Description | Return Type |
 |--------|-------------|-------------|
 | `createSpawnerItem(EntityType)` | Creates a SmartSpawner item | `ItemStack` |
-| `createSpawnerItem(EntityType, int)` | Creates many SmartSpawner items | `ItemStack` |
-| `isValidSpawner(ItemStack)` | Checks if item is valid SmartSpawner | `boolean` |
-| `getSpawnerEntityType(ItemStack)` | Gets entity type from SmartSpawner | `EntityType` |
+| `createSpawnerItem(EntityType, int)` | Creates multiple SmartSpawner items | `ItemStack` |
+| `createVanillaSpawnerItem(EntityType)` | Creates a vanilla spawner item | `ItemStack` |
+| `createVanillaSpawnerItem(EntityType, int)` | Creates multiple vanilla spawner items | `ItemStack` |
+| `createItemSpawnerItem(Material)` | Creates an item spawner | `ItemStack` |
+| `createItemSpawnerItem(Material, int)` | Creates multiple item spawners | `ItemStack` |
 
-### `createSpawnerItem()`
-Creates a SmartSpawner item with the specified entity type.
+### Validation Methods
+
+| Method | Description | Return Type |
+|--------|-------------|-------------|
+| `isSmartSpawner(ItemStack)` | Checks if item is a SmartSpawner | `boolean` |
+| `isVanillaSpawner(ItemStack)` | Checks if item is a vanilla spawner | `boolean` |
+| `isItemSpawner(ItemStack)` | Checks if item is an item spawner | `boolean` |
+| `getSpawnerEntityType(ItemStack)` | Gets entity type from spawner | `EntityType` |
+| `getItemSpawnerMaterial(ItemStack)` | Gets material from item spawner | `Material` |
+
+## Creation Methods
+
+### Creating SmartSpawners
+
+SmartSpawners are custom spawners with full SmartSpawner features including stacking, storage, and custom drops.
 
 ```java
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-// Create a zombie spawner
+// Create a single zombie spawner
 ItemStack zombieSpawner = api.createSpawnerItem(EntityType.ZOMBIE);
+
+// Create multiple skeleton spawners
+ItemStack skeletonSpawners = api.createSpawnerItem(EntityType.SKELETON, 5);
 
 // Give to player
 player.getInventory().addItem(zombieSpawner);
 ```
 
-Creates a SmartSpawner item with custom amount.
+### Creating Vanilla Spawners
+
+Vanilla spawners function like standard Minecraft spawners without SmartSpawner features.
 
 ```java
-// Create 5 skeleton spawners
-ItemStack skeletonSpawners = api.createSpawnerItem(EntityType.SKELETON, 5);
+// Create a vanilla creeper spawner
+ItemStack vanillaSpawner = api.createVanillaSpawnerItem(EntityType.CREEPER);
+
+// Create multiple vanilla spawners
+ItemStack vanillaSpawners = api.createVanillaSpawnerItem(EntityType.COW, 3);
 ```
 
-### `isValidSpawner()`
-Checks if an item is a valid SmartSpawner item.
+### Creating Item Spawners
+
+Item spawners spawn items instead of entities.
+
+```java
+import org.bukkit.Material;
+
+// Create a diamond spawner
+ItemStack diamondSpawner = api.createItemSpawnerItem(Material.DIAMOND);
+
+// Create multiple gold ingot spawners
+ItemStack goldSpawners = api.createItemSpawnerItem(Material.GOLD_INGOT, 10);
+```
+
+## Validation Methods
+
+### `isSmartSpawner()`
+
+Checks if an ItemStack is a SmartSpawner (with custom features).
 
 ```java
 @EventHandler
 public void onPlayerInteract(PlayerInteractEvent event) {
     ItemStack item = event.getItem();
     
-    if (api.isValidSpawner(item)) {
-        event.getPlayer().sendMessage("You're holding a spawner!");
+    if (api.isSmartSpawner(item)) {
+        player.sendMessage("This is a SmartSpawner!");
+    }
+}
+```
+
+### `isVanillaSpawner()`
+
+Checks if an ItemStack is a vanilla spawner (without SmartSpawner features).
+
+```java
+ItemStack item = player.getInventory().getItemInMainHand();
+
+if (api.isVanillaSpawner(item)) {
+    player.sendMessage("This is a vanilla spawner!");
+}
+```
+
+### `isItemSpawner()`
+
+Checks if an ItemStack is an item spawner.
+
+```java
+@EventHandler
+public void onSpawnerPlace(BlockPlaceEvent event) {
+    ItemStack item = event.getItemInHand();
+    
+    if (api.isItemSpawner(item)) {
+        player.sendMessage("You placed an item spawner!");
     }
 }
 ```
 
 ### `getSpawnerEntityType()`
-Gets the entity type from a SmartSpawner item.
+
+Gets the entity type from any spawner item.
 
 ```java
 ItemStack item = player.getItemInHand();
@@ -134,8 +204,72 @@ EntityType entityType = api.getSpawnerEntityType(item);
 
 if (entityType != null) {
     player.sendMessage("This spawner spawns: " + entityType.name());
+} else {
+    player.sendMessage("This is not a valid spawner!");
 }
 ```
+
+### `getItemSpawnerMaterial()`
+
+Gets the material type from an item spawner.
+
+```java
+ItemStack item = player.getItemInHand();
+
+if (api.isItemSpawner(item)) {
+    Material material = api.getItemSpawnerMaterial(item);
+    if (material != null) {
+        player.sendMessage("This spawner spawns: " + material.name());
+    }
+}
+```
+
+## Complete Example
+
+Here's a comprehensive example that demonstrates all validation methods:
+
+```java
+import github.nighter.smartspawner.api.SmartSpawnerAPI;
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+
+public class SpawnerChecker implements Listener {
+    
+    private final SmartSpawnerAPI api;
+    
+    public SpawnerChecker(SmartSpawnerAPI api) {
+        this.api = api;
+    }
+    
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        ItemStack item = event.getItem();
+        
+        if (item == null || item.getType() != Material.SPAWNER) {
+            return;
+        }
+        
+        // Check spawner type
+        if (api.isSmartSpawner(item)) {
+            EntityType type = api.getSpawnerEntityType(item);
+            player.sendMessage("§aSmartSpawner: §e" + type);
+        } 
+        else if (api.isVanillaSpawner(item)) {
+            EntityType type = api.getSpawnerEntityType(item);
+            player.sendMessage("§7Vanilla Spawner: §e" + type);
+        } 
+        else if (api.isItemSpawner(item)) {
+            Material material = api.getItemSpawnerMaterial(item);
+            player.sendMessage("§6Item Spawner: §e" + material);
+        }
+    }
+}
 
 ## API Events
 
@@ -327,6 +461,9 @@ public void onSpawnerOpenGUI(SpawnerOpenGUIEvent event) {
 <br>
 <br>
 
+<br>
+<br>
+
 ---
 
-*Last update: October 4, 2025 08:48:21*
+*Last update: November 9, 2025 18:41:39*
