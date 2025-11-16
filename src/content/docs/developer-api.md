@@ -270,6 +270,7 @@ public class SpawnerChecker implements Listener {
         }
     }
 }
+```
 
 ## API Events
 
@@ -461,9 +462,6 @@ public void onSpawnerOpenGUI(SpawnerOpenGUIEvent event) {
 <br>
 <br>
 
-<br>
-<br>
-
 ---
 
-*Last update: November 9, 2025 18:41:39*
+*Last update: November 16, 2025 20:27:39*
