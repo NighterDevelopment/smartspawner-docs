@@ -104,6 +104,44 @@ public class YourPlugin extends JavaPlugin {
 | `getSpawnerEntityType(ItemStack)` | Gets entity type from spawner | `EntityType` |
 | `getItemSpawnerMaterial(ItemStack)` | Gets material from item spawner | `Material` |
 
+### Spawner Data Access Methods
+
+| Method | Description | Return Type |
+|--------|-------------|-------------|
+| `getSpawnerByLocation(Location)` | Gets spawner data by block location | `SpawnerDataDTO` |
+| `getSpawnerById(String)` | Gets spawner data by unique ID | `SpawnerDataDTO` |
+| `getAllSpawners()` | Gets all registered spawners | `List<SpawnerDataDTO>` |
+| `getSpawnerModifier(String)` | Gets modifier to change spawner properties | `SpawnerDataModifier` |
+
+### SpawnerDataDTO
+
+The `SpawnerDataDTO` class provides read-only access to spawner information:
+
+| Method | Description | Return Type |
+|--------|-------------|-------------|
+| `getSpawnerId()` | Gets the unique spawner ID | `String` |
+| `getLocation()` | Gets the spawner location | `Location` |
+| `getEntityType()` | Gets the entity type | `EntityType` |
+| `getSpawnedItemMaterial()` | Gets spawned item material (for item spawners) | `Material` |
+| `getStackSize()` | Gets current stack size | `int` |
+| `getMaxStackSize()` | Gets maximum stack size | `int` |
+| `getBaseMaxStoragePages()` | Gets base storage pages | `int` |
+| `getBaseMinMobs()` | Gets base minimum mobs | `int` |
+| `getBaseMaxMobs()` | Gets base maximum mobs | `int` |
+| `getBaseMaxStoredExp()` | Gets base maximum stored experience | `int` |
+| `getBaseSpawnerDelay()` | Gets base spawner delay in ticks | `long` |
+| `isItemSpawner()` | Checks if this is an item spawner | `boolean` |
+
+### SpawnerDataModifier
+
+The `SpawnerDataModifier` interface allows controlled modification of spawner properties:
+
+| Method | Description | Return Type |
+|--------|-------------|-------------|
+| `getStackSize()` | Gets current stack size | `int` |
+| `setStackSize(int)` | Sets stack size (chainable) | `SpawnerDataModifier` |
+| `applyChanges()` | Applies and recalculates all changes | `void` |
+
 ## Creation Methods
 
 ### Creating SmartSpawners
@@ -224,9 +262,136 @@ if (api.isItemSpawner(item)) {
 }
 ```
 
-## Complete Example
+## Spawner Data Access
 
-Here's a comprehensive example that demonstrates all validation methods:
+### `getSpawnerByLocation()`
+
+Gets spawner data by its block location.
+
+```java
+import github.nighter.smartspawner.api.data.SpawnerDataDTO;
+import org.bukkit.Location;
+
+Location location = block.getLocation();
+SpawnerDataDTO spawnerData = api.getSpawnerByLocation(location);
+
+if (spawnerData != null) {
+    player.sendMessage("Spawner ID: " + spawnerData.getSpawnerId());
+    player.sendMessage("Entity Type: " + spawnerData.getEntityType());
+    player.sendMessage("Stack Size: " + spawnerData.getStackSize() + " (read-only)");
+    player.sendMessage("Base Delay: " + spawnerData.getBaseSpawnerDelay() + " ticks");
+    
+    // Modify values directly (all properties have setters except stackSize)
+    spawnerData.setBaseMaxMobs(10);
+    spawnerData.setBaseMinMobs(2);
+    spawnerData.setBaseSpawnerDelay(600L); // 30 seconds
+    player.sendMessage("Values updated!");
+}
+```
+
+### `getSpawnerById()`
+
+Gets spawner data by its unique identifier.
+
+```java
+String spawnerId = "spawner-uuid-here";
+SpawnerDataDTO spawnerData = api.getSpawnerById(spawnerId);
+
+if (spawnerData != null) {
+    Location location = spawnerData.getLocation();
+    player.sendMessage("Spawner location: " + location);
+    player.sendMessage("Max Stack: " + spawnerData.getMaxStackSize());
+    
+    // Modify maximum stack size
+    spawnerData.setMaxStackSize(2000);
+}
+```
+
+### `getAllSpawners()`
+
+Gets all registered spawners in the server.
+
+```java
+import java.util.List;
+
+List<SpawnerDataDTO> allSpawners = api.getAllSpawners();
+player.sendMessage("Total spawners: " + allSpawners.size());
+
+for (SpawnerDataDTO spawner : allSpawners) {
+    player.sendMessage("- " + spawner.getEntityType() + 
+                      " at " + spawner.getLocation() + 
+                      " (Stack: " + spawner.getStackSize() + ")");
+}
+```
+
+### `getSpawnerModifier()`
+
+Modifies spawner properties through the API with method chaining.
+
+```java
+import github.nighter.smartspawner.api.data.SpawnerDataModifier;
+
+// Get the spawner modifier
+String spawnerId = "spawner-uuid-here";
+SpawnerDataModifier modifier = api.getSpawnerModifier(spawnerId);
+
+if (modifier != null) {
+    // Read current values
+    int currentStack = modifier.getStackSize(); // Read-only
+    long currentDelay = modifier.getBaseSpawnerDelay();
+    
+    // Modify multiple values with method chaining
+    modifier.setBaseMaxMobs(15)
+            .setBaseMinMobs(5)
+            .setBaseSpawnerDelay(400L)
+            .setBaseMaxStoredExp(5000)
+            .setBaseMaxStoragePages(3)
+            .applyChanges(); // Must call to apply changes and recalculate
+    
+    player.sendMessage("Spawner configuration updated!");
+    player.sendMessage("Note: Stack size cannot be modified (read-only)");
+}
+```
+
+### Reading and Modifying Base Values
+
+All base values can be both read and modified:
+
+```java
+SpawnerDataModifier modifier = api.getSpawnerModifier(spawnerId);
+
+if (modifier != null) {
+    // Read current values
+    int maxStoragePages = modifier.getBaseMaxStoragePages();
+    int minMobs = modifier.getBaseMinMobs();
+    int maxMobs = modifier.getBaseMaxMobs();
+    int maxStoredExp = modifier.getBaseMaxStoredExp();
+    long spawnerDelay = modifier.getBaseSpawnerDelay();
+    
+    player.sendMessage("Current Config Values:");
+    player.sendMessage("Storage Pages: " + maxStoragePages);
+    player.sendMessage("Min Mobs: " + minMobs);
+    player.sendMessage("Max Mobs: " + maxMobs);
+    player.sendMessage("Max Exp: " + maxStoredExp);
+    player.sendMessage("Delay: " + spawnerDelay + " ticks");
+    
+    // Modify values
+    modifier.setBaseMaxStoragePages(5)
+            .setBaseMinMobs(3)
+            .setBaseMaxMobs(20)
+            .setBaseMaxStoredExp(10000)
+            .setBaseSpawnerDelay(300L)
+            .applyChanges();
+    
+    player.sendMessage("All values updated successfully!");
+}
+```
+
+## Complete Examples
+
+### Example 1: Spawner Item Validation
+
+This example demonstrates all validation methods:
 
 ```java
 import github.nighter.smartspawner.api.SmartSpawnerAPI;
@@ -268,6 +433,151 @@ public class SpawnerChecker implements Listener {
             Material material = api.getItemSpawnerMaterial(item);
             player.sendMessage("§6Item Spawner: §e" + material);
         }
+    }
+}
+```
+
+### Example 2: Spawner Data Management
+
+This example shows how to access and modify spawner data:
+
+```java
+import github.nighter.smartspawner.api.SmartSpawnerAPI;
+import github.nighter.smartspawner.api.data.SpawnerDataDTO;
+import github.nighter.smartspawner.api.data.SpawnerDataModifier;
+import org.bukkit.Location;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class SpawnerCommand implements CommandExecutor {
+    
+    private final SmartSpawnerAPI api;
+    
+    public SpawnerCommand(SmartSpawnerAPI api) {
+        this.api = api;
+    }
+    
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("Player only command!");
+            return true;
+        }
+        
+        Player player = (Player) sender;
+        Location location = player.getTargetBlock(null, 5).getLocation();
+        
+        // Get spawner data
+        SpawnerDataDTO spawnerData = api.getSpawnerByLocation(location);
+        
+        if (spawnerData == null) {
+            player.sendMessage("§cNo spawner found at that location!");
+            return true;
+        }
+        
+        // Display spawner information
+        player.sendMessage("§6=== Spawner Info ===");
+        player.sendMessage("§eID: §f" + spawnerData.getSpawnerId());
+        player.sendMessage("§eEntity: §f" + spawnerData.getEntityType());
+        player.sendMessage("§eStack Size: §f" + spawnerData.getStackSize() + 
+                          " §7(read-only)");
+        player.sendMessage("§eMax Stack: §f" + spawnerData.getMaxStackSize());
+        player.sendMessage("§eBase Delay: §f" + spawnerData.getBaseSpawnerDelay() + " ticks");
+        player.sendMessage("§eBase Min Mobs: §f" + spawnerData.getBaseMinMobs());
+        player.sendMessage("§eBase Max Mobs: §f" + spawnerData.getBaseMaxMobs());
+        player.sendMessage("§eBase Max Exp: §f" + spawnerData.getBaseMaxStoredExp());
+        player.sendMessage("§eBase Storage Pages: §f" + spawnerData.getBaseMaxStoragePages());
+        
+        // Modify spawner using SpawnerDataModifier
+        if (args.length > 0 && args[0].equalsIgnoreCase("upgrade")) {
+            SpawnerDataModifier modifier = api.getSpawnerModifier(spawnerData.getSpawnerId());
+            
+            if (modifier != null) {
+                // Upgrade spawner with method chaining
+                modifier.setBaseMaxMobs(modifier.getBaseMaxMobs() + 2)
+                        .setBaseMinMobs(modifier.getBaseMinMobs() + 1)
+                        .setBaseMaxStoredExp(modifier.getBaseMaxStoredExp() + 500)
+                        .setBaseMaxStoragePages(modifier.getBaseMaxStoragePages() + 1)
+                        .applyChanges();
+                
+                player.sendMessage("§aSpawner upgraded successfully!");
+            }
+        }
+        
+        // Direct modification through DTO (alternative method)
+        if (args.length > 0 && args[0].equalsIgnoreCase("setdelay")) {
+            if (args.length > 1) {
+                try {
+                    long newDelay = Long.parseLong(args[1]);
+                    spawnerData.setBaseSpawnerDelay(newDelay);
+                    player.sendMessage("§aSpawner delay set to " + newDelay + " ticks!");
+                } catch (NumberFormatException e) {
+                    player.sendMessage("§cInvalid delay value!");
+                }
+            }
+        }
+        
+        return true;
+    }
+}
+```
+
+### Example 3: Spawner Statistics Command
+
+This example creates a command to display server-wide spawner statistics:
+
+```java
+import github.nighter.smartspawner.api.SmartSpawnerAPI;
+import github.nighter.smartspawner.api.data.SpawnerDataDTO;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class SpawnerStatsCommand implements CommandExecutor {
+    
+    private final SmartSpawnerAPI api;
+    
+    public SpawnerStatsCommand(SmartSpawnerAPI api) {
+        this.api = api;
+    }
+    
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        // Get all spawners
+        List<SpawnerDataDTO> allSpawners = api.getAllSpawners();
+        
+        // Count by entity type
+        Map<EntityType, Integer> spawnerCounts = new HashMap<>();
+        int totalStackSize = 0;
+        
+        for (SpawnerDataDTO spawner : allSpawners) {
+            EntityType type = spawner.getEntityType();
+            spawnerCounts.put(type, spawnerCounts.getOrDefault(type, 0) + 1);
+            totalStackSize += spawner.getStackSize();
+        }
+        
+        // Display statistics
+        sender.sendMessage("§6=== Spawner Statistics ===");
+        sender.sendMessage("§eTotal Spawners: §f" + allSpawners.size());
+        sender.sendMessage("§eTotal Stack Size: §f" + totalStackSize);
+        sender.sendMessage("");
+        sender.sendMessage("§eSpawners by Type:");
+        
+        spawnerCounts.entrySet().stream()
+                .sorted((a, b) -> b.getValue().compareTo(a.getValue()))
+                .forEach(entry -> {
+                    sender.sendMessage("  §7- §f" + entry.getKey() + 
+                                     "§7: §e" + entry.getValue());
+                });
+        
+        return true;
     }
 }
 ```
@@ -464,4 +774,4 @@ public void onSpawnerOpenGUI(SpawnerOpenGUIEvent event) {
 
 ---
 
-*Last update: November 16, 2025 20:27:39*
+*Last update: November 17, 2025 10:52:08*
