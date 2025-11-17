@@ -35,8 +35,13 @@ function getChangedFiles() {
       .split('\n')
       .filter(file => file.trim() !== '');
 
-    // Combine both lists and remove duplicates
-    const allChangedFiles = [...new Set([...changedFiles, ...stagedFiles])];
+    // Get list of untracked files (new files not yet added to git)
+    const untrackedFiles = execSync('git ls-files --others --exclude-standard', { encoding: 'utf8' })
+      .split('\n')
+      .filter(file => file.trim() !== '');
+
+    // Combine all lists and remove duplicates
+    const allChangedFiles = [...new Set([...changedFiles, ...stagedFiles, ...untrackedFiles])];
 
     // Convert to absolute paths
     return allChangedFiles.map(file => path.resolve(file));

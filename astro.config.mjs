@@ -69,9 +69,21 @@ export default defineConfig({
 					],
 				},
 				{
-					label: 'Advanced',
+					label: 'Developer API',
+					collapsed: false,
 					items: [
-						{ label: 'Developer API', slug: 'developer-api' },
+						{ label: 'API Installation', slug: 'developer-api/api-installation' },
+						{ label: 'API Events', slug: 'developer-api/api-events' },
+						{
+							label: 'API Methods',
+							collapsed: false,
+							items: [
+								{ label: 'Creation Methods', slug: 'developer-api/api-creation' },
+								{ label: 'Validation Methods', slug: 'developer-api/api-validation' },
+								{ label: 'Spawner Data Methods', slug: 'developer-api/api-data-access' },
+								{ label: 'Methods Examples', slug: 'developer-api/api-examples' },
+							],
+						},
 					],
 				},
 			],
