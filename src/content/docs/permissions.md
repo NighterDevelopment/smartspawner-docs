@@ -39,7 +39,6 @@ Understanding the **Default** column in the permissions table:
 | `smartspawner.stack`             | Allow stacking spawners                              | `true`      |
 | `smartspawner.break`             | Allow breaking spawners                              | `true`      |
 | `smartspawner.sellall`           | Allow selling items in spawner storage GUI           | `true`      |
-| `smartspawner.limits.bypass`     | Bypass spawner limits per chunk                      | `false`     |
 
 <br>
 <br>
